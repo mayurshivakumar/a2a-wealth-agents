@@ -1,0 +1,4 @@
+interface:
+  display_name: "A2A API Designer"
+  short_description: "Design and evolve A2A transport contracts"
+  default_prompt: "Use $api-designer to design this A2A contract change."

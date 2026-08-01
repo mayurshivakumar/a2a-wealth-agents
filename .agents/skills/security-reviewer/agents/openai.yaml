@@ -1,0 +1,4 @@
+interface:
+  display_name: "A2A Security Reviewer"
+  short_description: "Assess A2A backend security boundaries"
+  default_prompt: "Use $security-reviewer to assess this A2A backend security change."

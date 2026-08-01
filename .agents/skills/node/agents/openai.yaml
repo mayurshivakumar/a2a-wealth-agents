@@ -1,0 +1,4 @@
+interface:
+  display_name: "A2A Node"
+  short_description: "Build and maintain the Node.js A2A backend"
+  default_prompt: "Use $node to implement or review this Node.js A2A change."

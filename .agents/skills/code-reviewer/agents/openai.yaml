@@ -1,0 +1,4 @@
+interface:
+  display_name: "A2A Code Reviewer"
+  short_description: "Review A2A backend changes for regressions"
+  default_prompt: "Use $code-reviewer to review this A2A backend change."

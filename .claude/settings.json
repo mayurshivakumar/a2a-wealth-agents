@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm view *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(npx vitest *)",
+      "Bash(npx prettier *)",
+      "Bash(npx eslint *)",
+      "Bash(git status *)",
+      "Bash(uuidgen)",
+      "Bash(curl -s http://localhost:4001/healthz)",
+      "Bash(curl -s http://localhost:4002/healthz)",
+      "Bash(curl -s http://localhost:4003/healthz)",
+      "WebSearch",
+      "WebFetch(domain:openai.github.io)",
+      "WebFetch(domain:langfuse.com)",
+      "Skill(artifact-design)",
+      "Skill(artifact-design:*)"
+    ]
+  }
+}

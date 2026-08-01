@@ -1,0 +1,4 @@
+interface:
+  display_name: "A2A Debugging"
+  short_description: "Diagnose A2A runtime and test failures"
+  default_prompt: "Use $debugging-wizard to diagnose this A2A failure from evidence."

@@ -1,0 +1,12 @@
+interface:
+  display_name: "A2A OpenAI Docs"
+  short_description: "Verify OpenAI Agents SDK and model guidance"
+  default_prompt: "Use $openai-docs to verify current official guidance for this OpenAI Agents SDK change."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "openaiDeveloperDocs"
+      description: "Official OpenAI developer documentation"
+      transport: "streamable_http"
+      url: "https://developers.openai.com/mcp"
