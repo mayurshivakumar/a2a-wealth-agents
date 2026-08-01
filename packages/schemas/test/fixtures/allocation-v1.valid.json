@@ -1,0 +1,20 @@
+{
+  "philosophy": "bogleheads-three-fund",
+  "targets": [
+    {
+      "assetClass": "us-total-market",
+      "weightPct": 50,
+      "preferredVehicles": ["VTI", "ITOT", "SCHB"]
+    },
+    {
+      "assetClass": "intl-developed",
+      "weightPct": 30,
+      "preferredVehicles": ["VXUS", "IXUS"]
+    },
+    {
+      "assetClass": "us-bonds",
+      "weightPct": 20,
+      "preferredVehicles": ["BND", "AGG"]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "actions": [
+    {
+      "type": "short",
+      "accountId": "",
+      "symbol": "VTI",
+      "quantity": 0,
+      "reason": ""
+    }
+  ],
+  "estimatedTaxSavings": -10,
+  "washSaleWarnings": "none"
+}

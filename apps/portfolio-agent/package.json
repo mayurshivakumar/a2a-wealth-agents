@@ -1,0 +1,18 @@
+{
+  "name": "@wealth/portfolio-agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A2A server (:4001) — standardizes messy pasted holdings into Zod-validated portfolio-v1 lots (synchronous SendMessage)",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@a2a-js/sdk": "1.0.0",
+    "@wealth/a2a-common": "*",
+    "@wealth/schemas": "*",
+    "zod": "4.4.3"
+  }
+}

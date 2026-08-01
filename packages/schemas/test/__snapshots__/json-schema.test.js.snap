@@ -1,0 +1,623 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`JSON-schema exports > allocation-v1 export is stable 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "philosophy": {
+      "minLength": 1,
+      "type": "string",
+    },
+    "targets": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "assetClass": {
+            "enum": [
+              "us-total-market",
+              "intl-developed",
+              "us-bonds",
+              "esg-thematic",
+              "gold",
+              "commodities",
+            ],
+            "type": "string",
+          },
+          "preferredVehicles": {
+            "items": {
+              "minLength": 1,
+              "type": "string",
+            },
+            "minItems": 1,
+            "type": "array",
+          },
+          "weightPct": {
+            "maximum": 100,
+            "minimum": 0,
+            "type": "number",
+          },
+        },
+        "required": [
+          "assetClass",
+          "weightPct",
+          "preferredVehicles",
+        ],
+        "type": "object",
+      },
+      "minItems": 1,
+      "type": "array",
+    },
+  },
+  "required": [
+    "philosophy",
+    "targets",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`JSON-schema exports > artifact-ref-v1 export is stable 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "agent": {
+      "minLength": 1,
+      "type": "string",
+    },
+    "artifactId": {
+      "minLength": 1,
+      "type": "string",
+    },
+    "contextId": {
+      "minLength": 1,
+      "type": "string",
+    },
+    "schema": {
+      "minLength": 1,
+      "type": "string",
+    },
+    "taskId": {
+      "minLength": 1,
+      "type": "string",
+    },
+  },
+  "required": [
+    "agent",
+    "taskId",
+    "contextId",
+    "artifactId",
+    "schema",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`JSON-schema exports > execution-plan-v1 export is stable 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "accountId": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "lotId": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "quantity": {
+            "exclusiveMinimum": 0,
+            "type": "number",
+          },
+          "reason": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "symbol": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "type": {
+            "enum": [
+              "sell",
+              "buy",
+              "hold",
+            ],
+            "type": "string",
+          },
+        },
+        "required": [
+          "type",
+          "accountId",
+          "symbol",
+          "quantity",
+          "reason",
+        ],
+        "type": "object",
+      },
+      "minItems": 1,
+      "type": "array",
+    },
+    "estimatedTaxSavings": {
+      "minimum": 0,
+      "type": "number",
+    },
+    "washSaleWarnings": {
+      "items": {
+        "type": "string",
+      },
+      "type": "array",
+    },
+  },
+  "required": [
+    "actions",
+    "estimatedTaxSavings",
+    "washSaleWarnings",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`JSON-schema exports > portfolio-request-v1 export is stable 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "rawText": {
+      "minLength": 1,
+      "type": "string",
+    },
+  },
+  "required": [
+    "rawText",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`JSON-schema exports > portfolio-v1 export is stable 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "asOf": {
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+      "type": "string",
+    },
+    "holdings": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "accountId": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "accountType": {
+            "enum": [
+              "taxable",
+              "traditional-ira",
+              "roth-ira",
+              "401k",
+            ],
+            "type": "string",
+          },
+          "currentPrice": {
+            "exclusiveMinimum": 0,
+            "type": "number",
+          },
+          "lots": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "costBasis": {
+                  "exclusiveMinimum": 0,
+                  "type": "number",
+                },
+                "lotId": {
+                  "minLength": 1,
+                  "type": "string",
+                },
+                "purchaseDate": {
+                  "anyOf": [
+                    {
+                      "format": "date",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+                      "type": "string",
+                    },
+                    {
+                      "type": "null",
+                    },
+                  ],
+                },
+                "quantity": {
+                  "exclusiveMinimum": 0,
+                  "type": "number",
+                },
+              },
+              "required": [
+                "lotId",
+                "quantity",
+                "costBasis",
+                "purchaseDate",
+              ],
+              "type": "object",
+            },
+            "minItems": 1,
+            "type": "array",
+          },
+          "priceAsOf": {
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+            "type": "string",
+          },
+          "symbol": {
+            "pattern": "^[A-Z][A-Z0-9.]{0,5}$",
+            "type": "string",
+          },
+        },
+        "required": [
+          "accountId",
+          "accountType",
+          "symbol",
+          "lots",
+          "currentPrice",
+          "priceAsOf",
+        ],
+        "type": "object",
+      },
+      "minItems": 1,
+      "type": "array",
+    },
+    "portfolioId": {
+      "minLength": 1,
+      "type": "string",
+    },
+    "uninvestedCash": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "accountId": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "amount": {
+            "minimum": 0,
+            "type": "number",
+          },
+        },
+        "required": [
+          "accountId",
+          "amount",
+        ],
+        "type": "object",
+      },
+      "type": "array",
+    },
+  },
+  "required": [
+    "portfolioId",
+    "asOf",
+    "holdings",
+    "uninvestedCash",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`JSON-schema exports > prices-v1 export is stable 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": {
+    "additionalProperties": false,
+    "properties": {
+      "asOf": {
+        "format": "date-time",
+        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+        "type": "string",
+      },
+      "price": {
+        "exclusiveMinimum": 0,
+        "type": "number",
+      },
+    },
+    "required": [
+      "price",
+      "asOf",
+    ],
+    "type": "object",
+  },
+  "propertyNames": {
+    "type": "string",
+  },
+  "type": "object",
+}
+`;
+
+exports[`JSON-schema exports > strategy-request-v1 export is stable 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "constraints": {
+      "additionalProperties": false,
+      "properties": {
+        "excludeSectors": {
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "type": "array",
+        },
+        "maxExpenseRatioPct": {
+          "exclusiveMinimum": 0,
+          "type": "number",
+        },
+        "preferredDomiciles": {
+          "items": {
+            "minLength": 1,
+            "type": "string",
+          },
+          "type": "array",
+        },
+      },
+      "type": "object",
+    },
+    "customWeights": {
+      "additionalProperties": {
+        "maximum": 100,
+        "minimum": 0,
+        "type": "number",
+      },
+      "propertyNames": {
+        "enum": [
+          "us-total-market",
+          "intl-developed",
+          "us-bonds",
+          "esg-thematic",
+          "gold",
+          "commodities",
+        ],
+        "type": "string",
+      },
+      "type": "object",
+    },
+    "philosophy": {
+      "enum": [
+        "bogleheads-three-fund",
+        "esg-tilt",
+        "dividend-growth",
+        "all-weather",
+        "custom",
+      ],
+      "type": "string",
+    },
+  },
+  "required": [
+    "philosophy",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`JSON-schema exports > tax-followup-v1 export is stable 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "lotId": {
+      "minLength": 1,
+      "type": "string",
+    },
+    "purchaseDate": {
+      "format": "date",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+      "type": "string",
+    },
+  },
+  "required": [
+    "lotId",
+    "purchaseDate",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`JSON-schema exports > tax-request-v1 export is stable 1`] = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allocation": {
+      "additionalProperties": false,
+      "properties": {
+        "philosophy": {
+          "minLength": 1,
+          "type": "string",
+        },
+        "targets": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "assetClass": {
+                "enum": [
+                  "us-total-market",
+                  "intl-developed",
+                  "us-bonds",
+                  "esg-thematic",
+                  "gold",
+                  "commodities",
+                ],
+                "type": "string",
+              },
+              "preferredVehicles": {
+                "items": {
+                  "minLength": 1,
+                  "type": "string",
+                },
+                "minItems": 1,
+                "type": "array",
+              },
+              "weightPct": {
+                "maximum": 100,
+                "minimum": 0,
+                "type": "number",
+              },
+            },
+            "required": [
+              "assetClass",
+              "weightPct",
+              "preferredVehicles",
+            ],
+            "type": "object",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+      },
+      "required": [
+        "philosophy",
+        "targets",
+      ],
+      "type": "object",
+    },
+    "portfolio": {
+      "additionalProperties": false,
+      "properties": {
+        "asOf": {
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+          "type": "string",
+        },
+        "holdings": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accountId": {
+                "minLength": 1,
+                "type": "string",
+              },
+              "accountType": {
+                "enum": [
+                  "taxable",
+                  "traditional-ira",
+                  "roth-ira",
+                  "401k",
+                ],
+                "type": "string",
+              },
+              "currentPrice": {
+                "exclusiveMinimum": 0,
+                "type": "number",
+              },
+              "lots": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "costBasis": {
+                      "exclusiveMinimum": 0,
+                      "type": "number",
+                    },
+                    "lotId": {
+                      "minLength": 1,
+                      "type": "string",
+                    },
+                    "purchaseDate": {
+                      "anyOf": [
+                        {
+                          "format": "date",
+                          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+                          "type": "string",
+                        },
+                        {
+                          "type": "null",
+                        },
+                      ],
+                    },
+                    "quantity": {
+                      "exclusiveMinimum": 0,
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "lotId",
+                    "quantity",
+                    "costBasis",
+                    "purchaseDate",
+                  ],
+                  "type": "object",
+                },
+                "minItems": 1,
+                "type": "array",
+              },
+              "priceAsOf": {
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$",
+                "type": "string",
+              },
+              "symbol": {
+                "pattern": "^[A-Z][A-Z0-9.]{0,5}$",
+                "type": "string",
+              },
+            },
+            "required": [
+              "accountId",
+              "accountType",
+              "symbol",
+              "lots",
+              "currentPrice",
+              "priceAsOf",
+            ],
+            "type": "object",
+          },
+          "minItems": 1,
+          "type": "array",
+        },
+        "portfolioId": {
+          "minLength": 1,
+          "type": "string",
+        },
+        "uninvestedCash": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accountId": {
+                "minLength": 1,
+                "type": "string",
+              },
+              "amount": {
+                "minimum": 0,
+                "type": "number",
+              },
+            },
+            "required": [
+              "accountId",
+              "amount",
+            ],
+            "type": "object",
+          },
+          "type": "array",
+        },
+      },
+      "required": [
+        "portfolioId",
+        "asOf",
+        "holdings",
+        "uninvestedCash",
+      ],
+      "type": "object",
+    },
+  },
+  "required": [
+    "portfolio",
+    "allocation",
+  ],
+  "type": "object",
+}
+`;

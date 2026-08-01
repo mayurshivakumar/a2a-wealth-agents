@@ -1,0 +1,21 @@
+{
+  "portfolioId": "",
+  "asOf": "not-a-datetime",
+  "holdings": [
+    {
+      "accountId": "fid-tax-001",
+      "accountType": "brokerage",
+      "symbol": "vti",
+      "lots": [
+        {
+          "lotId": "VTI-001",
+          "quantity": -50,
+          "costBasis": 185,
+          "purchaseDate": "2022-03-10"
+        }
+      ],
+      "currentPrice": 187.75,
+      "priceAsOf": "2026-07-28T16:00:00Z"
+    }
+  ]
+}

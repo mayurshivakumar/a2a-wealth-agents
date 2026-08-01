@@ -1,0 +1,11 @@
+{
+  "philosophy": "custom",
+  "customWeights": {
+    "us-total-market": 60,
+    "us-bonds": 40
+  },
+  "constraints": {
+    "maxExpenseRatioPct": 0.1,
+    "excludeSectors": ["energy"]
+  }
+}

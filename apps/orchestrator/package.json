@@ -1,0 +1,19 @@
+{
+  "name": "@wealth/orchestrator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A2A client CLI — discovers the agent mesh, routes via @openai/agents (or --scripted keyword matcher), tracks the task registry",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@a2a-js/sdk": "1.0.0",
+    "@openai/agents": "0.13.5",
+    "@wealth/a2a-common": "*",
+    "@wealth/schemas": "*",
+    "zod": "4.4.3"
+  }
+}

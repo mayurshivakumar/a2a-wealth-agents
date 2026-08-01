@@ -1,0 +1,6 @@
+{
+  "philosophy": "",
+  "targets": [
+    { "assetClass": "crypto", "weightPct": 120, "preferredVehicles": [] }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "name": "a2a-wealth-agents",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A2A v1.0 multi-agent portfolio tax-loss-harvesting optimizer — Slice 0 learning slice",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "demos"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n portfolio,strategy,tax -c blue,magenta,yellow \"npm:dev:portfolio\" \"npm:dev:strategy\" \"npm:dev:tax\"",
+    "dev:portfolio": "npm run dev --workspace apps/portfolio-agent",
+    "dev:strategy": "npm run dev --workspace apps/strategy-agent",
+    "dev:tax": "npm run dev --workspace apps/tax-agent",
+    "orchestrator": "npm run start --workspace apps/orchestrator",
+    "orchestrator:scripted": "npm run start --workspace apps/orchestrator -- --scripted",
+    "test": "npm test --workspaces --if-present",
+    "lint": "eslint .",
+    "format": "prettier --check .",
+    "format:write": "prettier --write .",
+    "demo": "node demos/run-all.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.1",
+    "concurrently": "10.0.4",
+    "eslint": "9.39.1",
+    "globals": "17.7.0",
+    "prettier": "3.9.6",
+    "vitest": "3.2.7",
+    "winston-transport": "4.9.0"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "portfolio": {
+    "portfolioId": "pf-mini",
+    "asOf": "2026-07-28T16:00:00Z",
+    "holdings": [
+      {
+        "accountId": "fid-tax-001",
+        "accountType": "taxable",
+        "symbol": "VTI",
+        "lots": [
+          {
+            "lotId": "VTI-001",
+            "quantity": 10,
+            "costBasis": 204,
+            "purchaseDate": "2023-08-21"
+          }
+        ],
+        "currentPrice": 187.75,
+        "priceAsOf": "2026-07-28T16:00:00Z"
+      }
+    ],
+    "uninvestedCash": []
+  },
+  "allocation": {
+    "philosophy": "bogleheads-three-fund",
+    "targets": [
+      {
+        "assetClass": "us-total-market",
+        "weightPct": 100,
+        "preferredVehicles": ["VTI", "ITOT"]
+      }
+    ]
+  }
+}

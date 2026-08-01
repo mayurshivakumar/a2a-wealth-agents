@@ -1,0 +1,49 @@
+{
+  "portfolioId": "pf-fixture-a",
+  "asOf": "2026-07-28T16:00:00Z",
+  "holdings": [
+    {
+      "accountId": "fid-tax-001",
+      "accountType": "taxable",
+      "symbol": "VTI",
+      "lots": [
+        {
+          "lotId": "VTI-001",
+          "quantity": 50,
+          "costBasis": 185,
+          "purchaseDate": "2022-03-10"
+        },
+        {
+          "lotId": "VTI-002",
+          "quantity": 30,
+          "costBasis": 204,
+          "purchaseDate": "2023-08-21"
+        },
+        {
+          "lotId": "VTI-003",
+          "quantity": 40,
+          "costBasis": 210,
+          "purchaseDate": null
+        }
+      ],
+      "currentPrice": 187.75,
+      "priceAsOf": "2026-07-28T16:00:00Z"
+    },
+    {
+      "accountId": "vg-roth-001",
+      "accountType": "roth-ira",
+      "symbol": "VXUS",
+      "lots": [
+        {
+          "lotId": "VXUS-001",
+          "quantity": 60,
+          "costBasis": 55,
+          "purchaseDate": "2023-01-12"
+        }
+      ],
+      "currentPrice": 61.5,
+      "priceAsOf": "2026-07-28T16:00:00Z"
+    }
+  ],
+  "uninvestedCash": [{ "accountId": "fid-tax-001", "amount": 8500 }]
+}

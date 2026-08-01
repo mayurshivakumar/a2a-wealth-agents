@@ -1,0 +1,16 @@
+{
+  "name": "@wealth/demos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Scripted acceptance suite — one self-contained demo per A2A concept, asserting on artifact contents",
+  "type": "module",
+  "scripts": {
+    "test": "node run-all.js"
+  },
+  "dependencies": {
+    "@a2a-js/sdk": "1.0.0",
+    "@wealth/a2a-common": "*",
+    "@wealth/schemas": "*",
+    "zod": "4.4.3"
+  }
+}

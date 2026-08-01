@@ -1,0 +1,28 @@
+{
+  "actions": [
+    {
+      "type": "sell",
+      "accountId": "fid-tax-001",
+      "symbol": "VTI",
+      "lotId": "VTI-002",
+      "quantity": 30,
+      "reason": "Harvest $487.50 loss"
+    },
+    {
+      "type": "buy",
+      "accountId": "fid-tax-001",
+      "symbol": "ITOT",
+      "quantity": 61,
+      "reason": "Replacement for us-total-market; avoids wash-sale on VTI"
+    },
+    {
+      "type": "hold",
+      "accountId": "vg-roth-001",
+      "symbol": "VXUS",
+      "quantity": 60,
+      "reason": "roth-ira: no tax benefit to sell"
+    }
+  ],
+  "estimatedTaxSavings": 73.13,
+  "washSaleWarnings": []
+}
