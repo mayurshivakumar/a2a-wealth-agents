@@ -70,7 +70,15 @@ export function publishStatus(
 export function publishArtifact(
   eventBus,
   ctx,
-  { artifactId, name, data, schemaName, description = '', lastChunk = true },
+  {
+    artifactId,
+    name,
+    data,
+    schemaName,
+    description = '',
+    lastChunk = true,
+    metadata = {},
+  },
 ) {
   eventBus.publish(
     AgentEvent.artifactUpdate({
@@ -81,7 +89,10 @@ export function publishArtifact(
         name,
         description,
         parts: [createDataPart(data, { schemaName })],
-        metadata: schemaName ? { schema: schemaName } : {},
+        metadata: {
+          ...(schemaName ? { schema: schemaName } : {}),
+          ...metadata,
+        },
         extensions: [],
       },
       append: false,

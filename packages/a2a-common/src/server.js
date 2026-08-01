@@ -7,15 +7,31 @@ import {
   formatSSEErrorEvent,
   formatSSEEvent,
 } from '@a2a-js/sdk'
+import { toJsonRpcError } from '@a2a-js/sdk/errors'
 import {
   DefaultRequestHandler,
-  InMemoryTaskStore,
   JsonRpcTransportHandler,
   defaultServerCallContextBuilder,
   validateVersion,
 } from '@a2a-js/sdk/server'
 import { schemaNames, toJsonSchema } from '@wealth/schemas'
 import { noopLogger } from './logger.js'
+import { createTaskStore } from './task-store.js'
+
+const INTERNAL_ERROR = -32603
+
+// The SDK bundles a separate copy of the error classes into each entrypoint,
+// so an instanceof check inside the server chunk does not recognize errors
+// constructed from '@a2a-js/sdk/errors' (and vice versa). Map with the
+// transport handler's copy first (covers SDK-internal errors), and when that
+// degrades to INTERNAL_ERROR retry with the errors-entrypoint mapper (covers
+// RequestMalformedError etc. thrown by validateRequest middleware).
+function mapJsonRpcError(error) {
+  const primary = JsonRpcTransportHandler.mapToJSONRPCError(error)
+  if (primary?.code !== INTERNAL_ERROR) return primary
+  const fallback = toJsonRpcError(error)
+  return fallback?.code !== INTERNAL_ERROR ? fallback : primary
+}
 
 function isAsyncIterable(value) {
   return value && typeof value[Symbol.asyncIterator] === 'function'
@@ -37,19 +53,24 @@ function createServerCallContext(request) {
   })
 }
 
-function extractJsonRpcId(payload) {
+function safeParseJson(payload) {
   try {
-    const value = typeof payload === 'string' ? JSON.parse(payload) : payload
-    const id = value?.id
-    if (
-      typeof id === 'string' ||
-      (typeof id === 'number' && Number.isInteger(id)) ||
-      id === null
-    ) {
-      return id
-    }
+    return typeof payload === 'string' ? JSON.parse(payload) : payload
   } catch {
-    // A malformed body has no usable JSON-RPC request id.
+    // Malformed bodies are left for the transport handler to reject.
+    return undefined
+  }
+}
+
+function extractJsonRpcId(payload) {
+  const value = safeParseJson(payload)
+  const id = value?.id
+  if (
+    typeof id === 'string' ||
+    (typeof id === 'number' && Number.isInteger(id)) ||
+    id === null
+  ) {
+    return id
   }
   return null
 }
@@ -91,7 +112,7 @@ export function writeSseStream({
         formatSSEErrorEvent({
           jsonrpc: '2.0',
           id: requestId,
-          error: JsonRpcTransportHandler.mapToJSONRPCError(error),
+          error: mapJsonRpcError(error),
         }),
       )
     } finally {
@@ -115,13 +136,21 @@ export function writeSseStream({
  * `compression: false` is load-bearing: Hapi would otherwise gzip
  * text/event-stream responses (undici sends accept-encoding by default) and
  * zlib buffering destroys event-at-a-time delivery.
+ *
+ * `validateRequest({ method, message })` is the "Zod validation at the
+ * boundary" middleware: it runs for SendMessage/SendStreamingMessage before
+ * the SDK pipeline, and anything it throws (typically RequestMalformedError)
+ * becomes a JSON-RPC error envelope — no task record is created. Executor
+ * exceptions, by contrast, are converted by the SDK into FAILED tasks, so
+ * inbound-contract rejection MUST happen here to reach the wire as -32602.
  */
 export function createA2AServer({
   host = 'localhost',
   port,
   cardFor,
   executor,
-  taskStore = new InMemoryTaskStore(),
+  validateRequest,
+  taskStore = createTaskStore(),
   logger = noopLogger,
 }) {
   const server = Hapi.server({
@@ -204,12 +233,19 @@ export function createA2AServer({
 
         try {
           validateVersion(context.requestedVersion, state.card, 'JSONRPC')
+          if (validateRequest) {
+            const parsedBody = safeParseJson(payload)
+            const method = parsedBody?.method
+            if (method === 'SendMessage' || method === 'SendStreamingMessage') {
+              validateRequest({ method, message: parsedBody?.params?.message })
+            }
+          }
           response = await state.transportHandler.handle(payload, context)
         } catch (error) {
           response = {
             jsonrpc: '2.0',
             id: extractJsonRpcId(payload),
-            error: JsonRpcTransportHandler.mapToJSONRPCError(error),
+            error: mapJsonRpcError(error),
           }
         }
 
@@ -228,7 +264,7 @@ export function createA2AServer({
               .response({
                 jsonrpc: '2.0',
                 id: requestId,
-                error: JsonRpcTransportHandler.mapToJSONRPCError(error),
+                error: mapJsonRpcError(error),
               })
               .code(200)
               .type('application/json')

@@ -318,6 +318,35 @@ describe('Hapi A2A bridge', () => {
     expect(response.result.error.code).toBe(-32001)
   })
 
+  it('lists stored tasks over the wire despite the SDK status-default defect', async () => {
+    const application = await startTestServer({
+      streaming: true,
+      executor: streamingExecutor,
+    })
+    await application.server.inject({
+      method: 'POST',
+      url: '/a2a',
+      headers: a2aHeaders,
+      payload: rpcPayload(),
+    })
+
+    // An omitted status arrives as TASK_STATE_UNSPECIFIED (0) server-side;
+    // WealthTaskStore must treat that as "no filter", not "match nothing".
+    const listed = await application.server.inject({
+      method: 'POST',
+      url: '/a2a',
+      headers: a2aHeaders,
+      payload: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 'list-1',
+        method: 'ListTasks',
+        params: { tenant: '' },
+      }),
+    })
+    expect(listed.result.result.totalSize).toBe(1)
+    expect(listed.result.result.tasks).toHaveLength(1)
+  })
+
   it('does not expose unrelated routes', async () => {
     const application = await startTestServer()
     expect((await application.server.inject('/')).statusCode).toBe(404)

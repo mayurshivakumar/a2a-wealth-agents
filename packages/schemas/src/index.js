@@ -1,5 +1,14 @@
 export { Allocation, AllocationTarget } from './allocation.js'
 export { ArtifactRef } from './artifact-ref.js'
+export {
+  expectedBogleheadsAllocation,
+  expectedHappyCash,
+  expectedHappyHoldings,
+  expectedHappyPlan,
+  garbagePaste,
+  happyPathPaste,
+  missingDatePaste,
+} from './demo-fixtures.js'
 export { ExecutionPlan, PlanAction } from './execution-plan.js'
 export {
   schemaFor,

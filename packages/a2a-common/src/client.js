@@ -1,9 +1,38 @@
+import { TaskState } from '@a2a-js/sdk'
 import {
   ClientFactory,
   ClientFactoryOptions,
   DefaultAgentCardResolver,
   JsonRpcTransportFactory,
 } from '@a2a-js/sdk/client'
+
+/**
+ * Builds proto-default-complete ListTasks params. The SDK's client codec
+ * serializes an ABSENT enum as the string "UNRECOGNIZED" (status -1 on the
+ * server), which matches nothing — every hand-built listTasks call must fill
+ * status with TASK_STATE_UNSPECIFIED explicitly. See design/errata.md §1.
+ */
+export function listTasksParams({
+  tenant = '',
+  contextId = '',
+  status = TaskState.TASK_STATE_UNSPECIFIED,
+  pageToken = '',
+  pageSize,
+  historyLength,
+  statusTimestampAfter,
+  includeArtifacts,
+} = {}) {
+  return {
+    tenant,
+    contextId,
+    status,
+    pageToken,
+    ...(pageSize !== undefined ? { pageSize } : {}),
+    ...(historyLength !== undefined ? { historyLength } : {}),
+    ...(statusTimestampAfter !== undefined ? { statusTimestampAfter } : {}),
+    ...(includeArtifacts !== undefined ? { includeArtifacts } : {}),
+  }
+}
 
 export function createTimeoutFetch(
   timeoutMs,

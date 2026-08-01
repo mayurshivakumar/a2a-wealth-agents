@@ -22,6 +22,25 @@ Verified against the published package (`dist/*.d.ts` and implementation).
 | Agent cards | `capabilities` also requires `extensions: []`. `resubscribe` is gated on `capabilities.streaming: true` (hence Tax declares streaming even though its primary flow is polling). Portfolio's `streaming: false` makes a streaming send fail with -32004 — kept as a deliberate negative-path demo |
 | Task has `createdAt` / `lastModified` | Not in v1.0 (`status.timestamp` only). The Orchestrator registry keeps its own timestamps |
 
+Two SDK 1.0.0 defects discovered at implementation time (both worked around in
+`packages/a2a-common`):
+
+- **Cross-entrypoint error identity.** The package bundles a separate copy of the
+  error classes into each entrypoint (`.`, `/errors`, `/server`, `/client`), so
+  `instanceof` checks in the server chunk do not recognize errors constructed from
+  `@a2a-js/sdk/errors`, and `JsonRpcTransportHandler.mapToJSONRPCError` degrades
+  them to -32603. The Hapi bridge maps errors through both entrypoints' mappers
+  (`mapJsonRpcError` in `packages/a2a-common/src/server.js`).
+- **`ListTasks` over JSON-RPC always returns an empty page** — two compounding
+  halves. Server: `ListTasksRequest.fromJSON` defaults an omitted `status` to `0`
+  (`TASK_STATE_UNSPECIFIED`) and `InMemoryTaskStore.list` filters whenever
+  `status !== undefined`, so no stored task ever matches → `WealthTaskStore`
+  (`packages/a2a-common/src/task-store.js`) treats UNSPECIFIED as "no filter".
+  Client: the codec serializes an *absent* `status` on hand-built params as the
+  string `"UNRECOGNIZED"` (status `-1` server-side) → always build params via
+  `listTasksParams()` (`packages/a2a-common/src/client.js`), which fills proto
+  defaults explicitly.
+
 Two load-bearing SDK semantics that shaped the design:
 
 - **`sendMessageStream` persists task state only while its generator is consumed.** An abandoned

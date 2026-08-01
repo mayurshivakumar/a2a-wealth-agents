@@ -1,5 +1,9 @@
 export { createAgentCard, findSkillByTag, skillSchemas } from './card.js'
-export { createRemoteClientFactory, createTimeoutFetch } from './client.js'
+export {
+  createRemoteClientFactory,
+  createTimeoutFetch,
+  listTasksParams,
+} from './client.js'
 export { loadConfig } from './config.js'
 export {
   TaskCanceledInterrupt,
@@ -23,6 +27,12 @@ export {
   firstDataPart,
 } from './messages.js'
 export { createA2AServer, writeSseStream } from './server.js'
+export { WealthTaskStore, createTaskStore } from './task-store.js'
+export {
+  parseWireMessage,
+  requestMalformed,
+  requestMalformedFromZod,
+} from './validation.js'
 export {
   TERMINAL_STATES,
   isTerminal,
