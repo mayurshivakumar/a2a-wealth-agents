@@ -29,13 +29,29 @@ export function publishTaskSubmitted(
   )
 }
 
-export function publishFollowUpTurn(eventBus, ctx) {
+export function publishFollowUpTurn(
+  eventBus,
+  ctx,
+  { clock = () => new Date() } = {},
+) {
   if (!ctx.task) {
     throw new Error(
       'publishFollowUpTurn requires an existing task on the RequestContext',
     )
   }
-  eventBus.publish(AgentEvent.task(ctx.task))
+  // Re-publish the snapshot with a WORKING status: the event queue treats an
+  // INPUT_REQUIRED status as a stop signal, so replaying the paused task
+  // verbatim would end the follow-up turn before any new event is seen.
+  eventBus.publish(
+    AgentEvent.task({
+      ...ctx.task,
+      status: {
+        state: TaskState.TASK_STATE_WORKING,
+        message: undefined,
+        timestamp: clock().toISOString(),
+      },
+    }),
+  )
 }
 
 export function publishStatus(
