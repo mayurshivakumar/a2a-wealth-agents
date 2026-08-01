@@ -48,6 +48,18 @@ node demos/02-sync-message.js  # or any single demo
 Slice 0's exit criterion: demos `01-discovery` … `07-end-to-end` pass in `--scripted` mode with no
 API keys.
 
+## Telemetry (optional)
+
+Every process initializes OpenTelemetry through its first-import
+`src/telemetry.js` (http + undici instrumentation → W3C trace context crosses
+every A2A hop; proven by `packages/a2a-common/test/tracing.test.js`). It is a
+complete no-op unless configured:
+
+- `OTEL_TRACING=true` plus standard `OTEL_EXPORTER_OTLP_*` variables enables
+  OTLP export in any process.
+- Langfuse keys in `.env` (see `.env.example`) attach the Langfuse span
+  processor — Orchestrator only, and never in `--scripted` demo runs.
+
 ## Tests
 
 ```bash

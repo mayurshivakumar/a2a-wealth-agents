@@ -1,7 +1,9 @@
+// telemetry.js MUST stay the first import: it loads .env, registers OTel
+// instrumentation before anything else touches http/undici, and (when
+// configured) attaches the Langfuse span processor — orchestrator-only.
+import { tracing } from './telemetry.js'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { config as loadEnv } from 'dotenv'
 import {
   createLogger,
   createRemoteClientFactory,
@@ -11,11 +13,6 @@ import { createActions } from './a2a-actions.js'
 import { createCli } from './cli.js'
 import { discoverAgents } from './discovery.js'
 import { createRegistry } from './registry.js'
-
-loadEnv({
-  path: fileURLToPath(new URL('../../../.env', import.meta.url)),
-  quiet: true,
-})
 
 function parseArgs(argv) {
   const args = { scripted: false, artifactDir: undefined }
@@ -65,7 +62,10 @@ if (scripted) {
     config,
     artifactDir: args.artifactDir,
     logger,
-    onExit: () => process.exit(process.exitCode ?? 0),
+    onExit: async () => {
+      await tracing.shutdown() // flush buffered spans before the process dies
+      process.exit(process.exitCode ?? 0)
+    },
   })
   await cli.start()
 } else {
@@ -80,4 +80,5 @@ if (scripted) {
     artifactDir: args.artifactDir,
     logger,
   })
+  await tracing.shutdown()
 }

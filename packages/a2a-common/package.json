@@ -5,7 +5,9 @@
   "description": "Shared A2A server/client plumbing: Hapi ⇄ @a2a-js/sdk bridge with SSE, agent-card factory, message helpers, config, logging",
   "type": "module",
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/index.js",
+    "./config": "./src/config.js",
+    "./tracing": "./src/tracing.js"
   },
   "scripts": {
     "test": "vitest run"
@@ -13,6 +15,10 @@
   "dependencies": {
     "@a2a-js/sdk": "1.0.0",
     "@hapi/hapi": "21.4.9",
+    "@opentelemetry/api": "1.9.1",
+    "@opentelemetry/instrumentation-http": "0.220.0",
+    "@opentelemetry/instrumentation-undici": "0.31.0",
+    "@opentelemetry/sdk-node": "0.220.0",
     "@wealth/schemas": "*",
     "dotenv": "17.4.2",
     "winston": "3.19.0",

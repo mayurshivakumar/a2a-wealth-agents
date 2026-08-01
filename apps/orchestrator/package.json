@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@a2a-js/sdk": "1.0.0",
+    "@langfuse/client": "5.9.1",
+    "@langfuse/otel": "5.9.1",
+    "@langfuse/tracing": "5.9.1",
     "@openai/agents": "0.13.5",
     "@wealth/a2a-common": "*",
     "@wealth/schemas": "*",

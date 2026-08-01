@@ -28,6 +28,7 @@ export {
 } from './messages.js'
 export { createA2AServer, writeSseStream } from './server.js'
 export { WealthTaskStore, createTaskStore } from './task-store.js'
+export { initTracing } from './tracing.js'
 export {
   parseWireMessage,
   requestMalformed,

@@ -4,23 +4,23 @@
 
 - [x] Target A2A v1.0: bump `@a2a-js/sdk` to `1.0.0` (stable on npm) and update `design.md` / `a2a-learning-slice.md` / `completeDesign.md` references from 0.3 → 1.0 (renamed operations, unified `Part`, `supportedInterfaces` cards, `SCREAMING_SNAKE_CASE` enums, error taxonomy, Node >= 20)
 
-## Phase 1 — Core slice (build order from a2a-learning-slice.md §10)
+## Phase 1 — Core slice (build order from a2a-learning-slice.md §10) — ✅ complete (see design/errata.md for divergences)
 
-- [ ] `packages/schemas` + static agent cards (v1.0 `supportedInterfaces` shape) — verify discovery with `curl`
-- [ ] Portfolio Agent + minimal client script — Flow A (sync `SendMessage`, data Part → Artifact)
-- [ ] Strategy Agent — Flow B (SSE via `SendStreamingMessage`, `StreamResponse` consumption)
-- [ ] Tax Agent — Flow C (task lifecycle, `input-required`, `CancelTask`, `SubscribeToTask`)
-- [ ] Orchestrator CLI with `--scripted` mode — end-to-end without API keys
-- [ ] `@openai/agents` routing layer — plug in OpenAI key
-- [ ] Telemetry (OpenTelemetry + Langfuse) and Winston log correlation
+- [x] `packages/schemas` + agent cards (v1.0 `supportedInterfaces` shape) — discovery verified in demo `01-discovery` (cards are built per-app via `@wealth/a2a-common` `createAgentCard`, post-bind)
+- [x] Portfolio Agent + demo `02-sync-message` — Flow A (sync `SendMessage`, text/data Part → Artifact, -32602 rejection)
+- [x] Strategy Agent + demo `03-streaming` — Flow B (SSE via `SendStreamingMessage`, `StreamResponse` consumption)
+- [x] Tax Agent + demos `04`–`06` — Flow C (task lifecycle, `input-required` same-taskId continuation, `CancelTask`, `SubscribeToTask` reattach)
+- [x] Orchestrator CLI with `--scripted` mode + demo `07-end-to-end` — full pipeline, no API keys (Slice 0 exit criteria)
+- [x] `@openai/agents` routing layer — 4 tools over the same a2a-actions; loaded only when a key is present
+- [x] Telemetry (OpenTelemetry http+undici instrumentation with a W3C propagation test; Langfuse span processor orchestrator-only) and Winston log correlation
 
 ## Phase 2 — Messaging & tasks (missing A2A concepts)
 
 - [ ] **File parts** — the remaining `Part` content kinds (`url` and `raw`); slice only uses `text` and `data`. Easy add: have the Tax Agent emit the execution plan as a CSV file Part (`raw` + `mediaType: "text/csv"`) alongside the data Part
 - [ ] **Remaining task states** — `TASK_STATE_REJECTED` (agent declines a task upfront) and `TASK_STATE_AUTH_REQUIRED` (task pauses for credentials, distinct from `input-required`); slice only reaches submitted/working/input-required/completed/failed/canceled
-- [ ] **Blocking vs non-blocking `SendMessage`** — `SendMessageConfiguration.returnImmediately` (v1.0 replaced `blocking` with inverted semantics), plus `acceptedOutputModes` negotiation
-- [ ] **Message history** — `historyLength` on `GetTask`, and task history reconstruction; `createdAt`/`lastModified` timestamps on Task
-- [ ] **`ListTasks`** — new v1.0 operation with filtering + cursor pagination; back the Orchestrator's `/tasks` command with it
+- [x] **Blocking vs non-blocking `SendMessage`** — exercised throughout Slice 0 (Portfolio blocking, Tax non-blocking + polling; note: blocking sends also resolve at `input-required`); explicit `acceptedOutputModes` negotiation revisited in Slice 2
+- [ ] **Message history** — `historyLength` on `GetTask`, and task history reconstruction (v1.0 Task has no `createdAt`/`lastModified` — only `status.timestamp`; see errata)
+- [x] **`ListTasks`** — backs the Orchestrator's `/tasks` reconciliation (basic; required two SDK-defect workarounds, see errata §1); filtering + pagination-under-concurrency revisited in Slice 9
 - [ ] **referenceTaskIds & task immutability** — terminal tasks can't be restarted; follow-ups create a new task referencing the old one under the same `contextId`. Subtle but core to A2A's mental model
 - [ ] **Artifact chunking** — `append`/`lastChunk` plus the v1.0 `index` field on streamed `taskArtifactUpdate` events for large artifacts
 

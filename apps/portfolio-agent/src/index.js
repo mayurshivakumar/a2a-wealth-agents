@@ -1,5 +1,6 @@
-import { fileURLToPath } from 'node:url'
-import { config as loadEnv } from 'dotenv'
+// telemetry.js MUST stay the first import: it registers OTel instrumentation
+// (and loads .env) before Hapi enters the module graph.
+import { tracing } from './telemetry.js'
 import {
   createA2AServer,
   createLogger,
@@ -11,11 +12,6 @@ import {
   createPortfolioExecutor,
   createPortfolioRequestValidator,
 } from './executor.js'
-
-loadEnv({
-  path: fileURLToPath(new URL('../../../.env', import.meta.url)),
-  quiet: true,
-})
 
 const config = loadConfig()
 const logger = createLogger({
@@ -35,4 +31,8 @@ const app = createA2AServer({
 })
 
 await app.start()
-installShutdownHandlers({ stop: () => app.stop({ timeout: 5_000 }), logger })
+installShutdownHandlers({
+  stop: () => app.stop({ timeout: 5_000 }),
+  onShutdown: () => tracing.shutdown(),
+  logger,
+})

@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/js": "9.39.1",
+    "@opentelemetry/sdk-trace-base": "2.9.0",
     "concurrently": "10.0.4",
     "eslint": "9.39.1",
     "globals": "17.7.0",
