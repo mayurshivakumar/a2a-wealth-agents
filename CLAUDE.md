@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository state
 
-**Slice 0 implementation is in progress** (npm-workspaces monorepo scaffolded; check `ls`/`git log` for what exists before referencing a path from the docs). Where implementation reality diverges from the design docs — verified SDK naming, re-derived fixture numbers, Slice 0 simplifications — **`design/errata.md` records the correction and wins**. Everything under `design/` remains the specification; slices after 0 are unbuilt.
+**Slice 0 is complete and green** — the four-process learning slice (Orchestrator CLI + Portfolio :4001 + Strategy :4002 + Tax :4003) with `packages/{schemas,a2a-common}` and the `demos/01`–`07` acceptance suite passing keyless (`npm run demo`); telemetry and the `@openai/agents` layer included. **Slices 1+ are unbuilt.** Where implementation reality diverges from the design docs — verified SDK naming, re-derived fixture numbers, Slice 0 simplifications, SDK 1.0.0 defect workarounds — **`design/errata.md` records the correction and wins**; read it before trusting a doc detail against the code. Note two dev-runner realities the docs don't mention: `npm run dev` starts only the three servers (the Orchestrator owns a readline prompt and runs separately via `npm run orchestrator[:scripted]`), and each app's `src/telemetry.js` must stay its first import.
 
 ## Reading order for the design docs
 
