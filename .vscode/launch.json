@@ -1,0 +1,74 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "A2A: Agent Servers",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "killBehavior": "polite",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "autoAttachChildProcesses": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "A2A: Orchestrator",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "orchestrator"],
+      "killBehavior": "polite",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "autoAttachChildProcesses": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "A2A: Orchestrator (Scripted)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "orchestrator:scripted"],
+      "killBehavior": "polite",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "autoAttachChildProcesses": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "A2A: Vitest Watch",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "autoAttachChildProcesses": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "A2A: Current Test",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": ["run", "${relativeFile}"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "autoAttachChildProcesses": true
+    }
+  ],
+  "compounds": [
+    {
+      "name": "A2A: Servers + Vitest Watch",
+      "configurations": ["A2A: Agent Servers", "A2A: Vitest Watch"],
+      "stopAll": true
+    },
+    {
+      "name": "A2A: Servers + Current Test",
+      "configurations": ["A2A: Agent Servers", "A2A: Current Test"],
+      "stopAll": true
+    }
+  ]
+}
