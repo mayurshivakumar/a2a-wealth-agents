@@ -14,12 +14,28 @@ four-process learning slice that exercises every core A2A v1.0 concept:
 The only LLM in the system runs in the Orchestrator. Every server is deterministic. Everything is
 in-memory — process restart = clean slate (a deliberate non-goal, not an oversight).
 
+## Implementation status
+
+| Slice              | Status on `main`          | Included surface                                                                    |
+| ------------------ | ------------------------- | ----------------------------------------------------------------------------------- |
+| 0 — Learning slice | Complete                  | Portfolio, Strategy, Tax, Orchestrator, and demos `01`–`07`                         |
+| 1 — Risk gate      | Designed, not yet present | Planned Risk Agent `:4004`, risk schemas, remediation loop, and demo `08-risk-gate` |
+
+The Slice 1 contract and acceptance criteria are specified in
+[`design/implementationPlan.md`](design/implementationPlan.md), but this revision does not contain
+`apps/risk-agent` or `demos/08-risk-gate.js`. Do not treat the risk gate as available until those
+surfaces are merged.
+
 ## Quickstart
 
 Requires Node.js >= 20. No API keys are needed for the scripted flow, tests, or demos.
 
 ```bash
 npm install
+
+# Verify a fresh checkout (npm test also runs the demo workspace)
+npm test
+npm run demo
 
 # Terminal 1 — start the three agent servers
 npm run dev
@@ -34,6 +50,18 @@ npm run orchestrator
 The Orchestrator runs in its own terminal because it owns a readline prompt — `concurrently`
 multiplexes stdout and cannot give it a TTY.
 
+Once `npm run dev` reports that each server is listening, verify the checked-in agents from another
+terminal:
+
+```bash
+curl --fail http://localhost:4001/healthz # Portfolio
+curl --fail http://localhost:4002/healthz # Strategy
+curl --fail http://localhost:4003/healthz # Tax
+```
+
+Each endpoint returns HTTP 200 with the agent's `name` and `version`. Stop the development runner
+with Ctrl+C; all three servers handle the signal and shut down together.
+
 ## Demos (the acceptance suite)
 
 Each demo is self-contained: it spawns the servers it needs on offset ports (14001+), asserts on
@@ -46,7 +74,8 @@ node demos/02-sync-message.js  # or any single demo
 ```
 
 Slice 0's exit criterion: demos `01-discovery` … `07-end-to-end` pass in `--scripted` mode with no
-API keys.
+API keys. Demo `08-risk-gate` is the planned Slice 1 exit criterion and is not included on the
+current `main` branch.
 
 ## Telemetry (optional)
 
